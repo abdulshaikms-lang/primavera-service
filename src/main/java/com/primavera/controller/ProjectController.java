@@ -50,8 +50,5 @@ public class ProjectController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(excelFile));
     }
-    @PostMapping("/sync/todos")
-    public ResponseEntity<SyncResultDto> syncTodos() {
-        return ResponseEntity.ok(syncService.syncTodosToP6());
-    }
+
 }
