@@ -1,14 +1,18 @@
 package com.primavera.controller;
 
 import com.primavera.dto.ProjectDto;
+import com.primavera.dto.SyncResultDto;
 import com.primavera.service.ExcelService;
+import com.primavera.service.PrimaveraService;
 import com.primavera.service.ProjectService;
+import com.primavera.service.SyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +28,7 @@ public class ProjectController {
     public static final String API_ROOT ="/api/v1/projects";
 
     public final ProjectService projectService;
+    public final SyncService syncService;
     public final ExcelService excelService;
 
     @GetMapping("")
@@ -44,5 +49,9 @@ public class ProjectController {
                 .headers(headers)
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(excelFile));
+    }
+    @PostMapping("/sync/todos")
+    public ResponseEntity<SyncResultDto> syncTodos() {
+        return ResponseEntity.ok(syncService.syncTodosToP6());
     }
 }
